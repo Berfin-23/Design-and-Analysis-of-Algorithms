@@ -1,0 +1,36 @@
+def job_scheduling(jobs, n):
+    jobs.sort(key=lambda x: x[2], reverse=True)
+
+    result = [False] * n
+    schedule = ["-1"] * n
+
+    for i in range(len(jobs)):
+        for j in range(min(n-1, jobs[i][1]-1), -1, -1):
+            if result[j] is False:
+                result[j] = True
+                schedule[j] = jobs[i][0]
+                break
+
+    total_profit = 0
+    print("\nSelected Jobs: ")
+    for job in schedule:
+        if job != '-1':
+            print(job)
+            total_profit += next((item for item in jobs if item[0] == job), [None, None, 0])[2]
+
+    print(f"\nTotal Profit: {total_profit}")
+
+
+n = int(input("Enter total number of jobs: "))
+jobs = [
+    [
+        input(f"Enter the job of {i+1}: "),
+        int(input(f"Enter the deadline of Job {i+1}: ")),
+        int(input(f"Enter the profit of Job {i+1}: "))
+    ]
+    for i in range(n)
+]
+print("\n\nJobs Deadline Profit")
+for i in range(n):
+    print(f"{jobs[i][0]}\t{jobs[i][1]}\t{jobs[i][2]}")
+job_scheduling(jobs, n)
