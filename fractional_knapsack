@@ -1,0 +1,24 @@
+def knapsack(weights, profits, capacity):
+    ratios = [(profits[i]/weights[i], i)for i in range(len(weights))]
+    ratios.sort(reverse=True)
+
+    total_weight = 0.0
+    total_profit = 0.0
+
+    for ratio, index in ratios:
+        if weights[index] + total_weight <= capacity:
+            total_weight += weights[index]
+            total_profit += profits[index]
+        else:
+            remaining_weight = capacity - total_weight
+            total_profit += profits[index] * (remaining_weight/weights[index])
+            break
+    return total_profit
+
+
+items = int(input("Enter the total number of items: "))
+weights = [int(input(f"Enter the weight of item {i+1}: ")) for i in range(items)]
+profits = [int(input(f"Enter the profit of item {i+1}: ")) for i in range(items)]
+capacity = int(input("Enter the knapsack capacity: "))
+maximum_profit = knapsack(weights, profits, capacity)
+print(f"Maximum profit: {maximum_profit}")
